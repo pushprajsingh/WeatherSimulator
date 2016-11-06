@@ -1,0 +1,10 @@
+Tokyo,Japan#JST
+Delhi,India#IST
+Melbourn,Australia#GMT
+New York,USA#EST
+Cairo,Egypt#EET
+Sydney,Australia#GMT
+Adelaide,Australia#GMT
+Toronto,Canada#EDT
+Frankfurt,Germany#CET
+San Francisco,USA#EDT
