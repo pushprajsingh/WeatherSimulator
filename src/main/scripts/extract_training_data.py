@@ -76,7 +76,7 @@ def download_weather_data(location_info_list, start_date, api_key):
 if __name__ == '__main__':
 
     location_list = None
-    with open('data/training_locations.txt') as f:
+    with open('training_locations.txt') as f:
         location_list = [line.strip() for line in f]
 
     location_info_list = download_location_info(location_list)
@@ -84,7 +84,7 @@ if __name__ == '__main__':
     weather_data = download_weather_data(location_info_list, datetime.datetime(2016, 1, 2),'72b0e9e922014d57d775ecc2c55d732f')
     #print(weather_data)
     df =pandas.DataFrame(weather_data)
-    df.to_csv('data/training_weather_data.csv')
+    df.to_csv('training_data.csv')
 
     #==========================
     #df = pandas.read_csv('data/training_weather_data.csv')
