@@ -39,7 +39,17 @@ public class ParseTextDatatoLabeledPoint implements Function<String, LabeledPoin
 		String[] parts = arg0.split(",");
 		double[] v = new double[prediction.size()];
 		for (int i = 0; i < prediction.size(); i++) {
-			v[i] = Double.parseDouble(parts[prediction.get(i)]);
+			Double num;
+	       	 try
+	       	 {
+	       		 num=Double.parseDouble(parts[prediction.get(i)]);
+	       	 }
+	       	 catch(NumberFormatException e)
+	       	 {
+	       		 return new LabeledPoint(-1, Vectors.zeros(prediction.size()));
+	       	 }
+	       	 v[i] =num;
+			//v[i] = Double.parseDouble(parts[prediction.get(i)]);
 		}
 
 		double condVal = -1;
