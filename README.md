@@ -20,20 +20,23 @@ Details of the project.
 
 
 Usage: 
-
 1. Download the project
 
 2. build calling "mvn clean install" 
 
    This will generate a tar file weather-simulator-bin.tgz
    untar to get 
-    a) java jars
+    a) java jars with dummy data.
     b) python scripts
+
+3. Execute the sprak job (It is executing in local mode as it is a simulator). 
+   <Local Path of untar file>>\weather-simulator-bin\lib>spark-submit --class  com.weather.spark.SparkWeatherPrediction  
+   --master  local[*]   weather-simulator-jar-with-dependencies.jar
+   
+   Out put generate will be placed in /lib/data/final-result folder.
+   
+	Note: Sample data is already placed in /lib/data folder. If you need any further updated or new data then 
+	execute python scrip and place the generated data in /lib/data folder.
     
 3. Execute the python script "extract_training_data.py" (specify the input file and output file location as per your requirement 
    and update the key generarted from darksky in the code - example here it is 72b0e9e922014d57d775ecc2c55d732f)
-   
-4. update the generated source file path in step 2 (for our explace we have placed in data folder of the project) 
-
-5. Execute the sprak job
-
