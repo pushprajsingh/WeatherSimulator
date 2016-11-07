@@ -15,7 +15,7 @@
 		</fileSet>
 		<fileSet>
 			<directory>data</directory>
-			<outputDirectory>/data</outputDirectory>
+			<outputDirectory>/lib/data</outputDirectory>
 			<includes>
 				<include>*.*</include>
 			</includes>
