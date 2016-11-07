@@ -8,7 +8,7 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.spark.SparkConf;
- import org.apache.spark.api.java.JavaRDD;
+import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.Function;
 import org.apache.spark.mllib.linalg.Vectors;
@@ -51,7 +51,7 @@ public class SparkWeatherPrediction {
 		final String path = "data/training_data.csv";
 		final String testLocations = "data/test_loc.txt";	
 		final String outPath="data/final_result/";
- 		checkAndDeleteOutPutFolder(outPath);
+		checkAndDeleteOutPutFolder(outPath);
 		
 		JavaRDD<String> data = sc.textFile(path);
 		
@@ -123,9 +123,10 @@ public class SparkWeatherPrediction {
 		});	
 
 		// Save the data to file and check if the file is available before storing latest record. 		
-		perCityFormattedData.saveAsTextFile(outPa
-		sc.stop();th);
+		
+		perCityFormattedData.saveAsTextFile(outPath);
 			
+		sc.stop();
 	}
 	
 	/**
