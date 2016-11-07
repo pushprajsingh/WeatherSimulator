@@ -65,9 +65,9 @@ def download_weather_data(location_info_list, start_date, api_key):
                     weather_data['lng'] = weather_data.get('lng', []) + [location_info['lng']]
                     weather_data['pres'] = weather_data.get('pres', []) + [hour.d.get('pressure', 1000)]
                     weather_data['temp'] = weather_data.get('temp', []) + [hour.d.get('temperature', 50)]
-                    weather_data['time'] = weather_data.get('time', []) + [hour.d['time']]
-                    weather_data['loc'] = weather_data.get('loc', []) + [location_info['location']]
+                    weather_data['time'] = weather_data.get('time', []) + [hour.d['time']]                    
                     weather_data['cond'] = weather_data.get('cond', []) + [hour.d.get('summary', '')]
+                    weather_data['loc'] = weather_data.get('loc', []) + [location_info['location']]
             except:
                 return weather_data
 
