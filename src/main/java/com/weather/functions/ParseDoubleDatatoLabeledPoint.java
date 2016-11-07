@@ -40,7 +40,17 @@ public class ParseDoubleDatatoLabeledPoint implements Function<String, LabeledPo
          double[] v = new double[prediction.size()];
          for(int i=0;i<prediction.size();i++)
          {
-        	 v[i] = Double.parseDouble(parts[prediction.get(i)]) ;
+        	 Double num;
+           	 try
+           	 {
+           		 num=Double.parseDouble(parts[prediction.get(i)]);
+           	 }
+           	 catch(NumberFormatException e)
+           	 {
+           		 return new LabeledPoint(-1, Vectors.zeros(prediction.size()));
+           	 }
+           	 v[i] =num;
+        	 //v[i] = Double.parseDouble(parts[prediction.get(i)]) ;
          }
          return new LabeledPoint(Double.parseDouble(parts[label.get(0)]), Vectors.dense(v));     
 		
