@@ -3,7 +3,7 @@ package com.weather.utils;
 public interface IConstants {
 	
 	// Columns #
-	static final Integer SNO = 0;
+/*	static final Integer SNO = 0;
 	static final Integer CONDITION = 8;
 	static final Integer ELEVATION = 1;
 	static final Integer HUMIDITY = 2;
@@ -11,7 +11,18 @@ public interface IConstants {
 	static final Integer LONGITUDE = 4;
 	static final Integer PRESSURE = 5;
 	static final Integer TEMPRATURE = 6;
-	static final Integer TIME = 7;
+	static final Integer TIME = 7;*/
+	
+	static final Integer SNO = 0;
+	static final Integer CONDITION = 1;
+	static final Integer ELEVATION = 2;
+	static final Integer HUMIDITY = 3;
+	static final Integer LATITUDE = 4;
+	static final Integer LONGITUDE = 5;
+	static final Integer PRESSURE = 6;
+	static final Integer TEMPRATURE = 7;
+	static final Integer TIME = 8;
+	
 
 	// Data Seperation 
 	static final Double TRAIN_DATA_PER = 0.9;
