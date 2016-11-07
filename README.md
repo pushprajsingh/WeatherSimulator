@@ -30,8 +30,7 @@ Usage:
     b) python scripts
 
 3. Execute the sprak job (It is executing in local mode as it is a simulator). 
-   <Local Path of untar file>>\weather-simulator-bin\lib>spark-submit --class  com.weather.spark.SparkWeatherPrediction  
-   --master  local[*]   weather-simulator-jar-with-dependencies.jar
+   <Local Path of untar file>>\weather-simulator-bin\lib>spark-submit --class com.weather.spark.SparkWeatherPrediction --master local[*] WeatherApp-1.0-SNAPSHOT-fat.jar
    
    Out put generate will be placed in /lib/data/final-result folder.
    
