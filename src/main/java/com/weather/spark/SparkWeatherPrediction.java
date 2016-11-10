@@ -11,6 +11,7 @@ import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.Function;
+import org.apache.spark.api.java.function.PairFunction;
 import org.apache.spark.mllib.linalg.Vectors;
 import org.apache.spark.mllib.regression.LabeledPoint;
 import org.apache.spark.mllib.tree.RandomForest;
@@ -31,6 +32,7 @@ import com.weather.utils.ModelGenUtil;
 import com.weather.utils.WeatherUtils;
 
 import jodd.io.FileUtil;
+import scala.Tuple2;
 
 /**
  * This is the main porcess spark process that will be called to fetch input file
