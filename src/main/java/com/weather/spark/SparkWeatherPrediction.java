@@ -53,7 +53,26 @@ public class SparkWeatherPrediction {
 		final String outPath="data/final_result/";
 		checkAndDeleteOutPutFolder(outPath);
 		
-		JavaRDD<String> data = sc.textFile(path);
+		JavaRDD<String> rawdata = sc.textFile(path);   
+		
+		// sort data 
+		JavaRDD<String> data = rawdata.mapToPair(new PairFunction<String, Double, String>() {
+	        @Override
+	        public Tuple2<Double, String> call(String s) throws Exception {
+	        	String splits[]=s.split(",");
+	        	Double val=0.0;
+	        	try
+	        	{
+	        		val=Double.parseDouble(splits[IConstants.TIME]);
+	        	}
+	        	catch(Exception e)
+	        	{
+	        		val=0.0;
+	        	}
+	            return new Tuple2<Double,String>(val,s);
+	        }
+	       }).sortByKey(true).map(f -> f._2());
+		
 		
 		// If Linear Regression is to be used instead of Random Forest Algorithm 
 		/*
