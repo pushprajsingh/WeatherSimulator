@@ -20,6 +20,7 @@ public class ParseTextDatatoLabeledPoint implements Function<String, LabeledPoin
 	private static final long serialVersionUID = 1L;
 	private final List<Integer> prediction;
 	private final List<Integer> label;
+	private boolean validAttributes=true;
 
 
 	private static final Log LOG = LogFactory.getLog(ParseTextDatatoLabeledPoint.class);
@@ -27,12 +28,13 @@ public class ParseTextDatatoLabeledPoint implements Function<String, LabeledPoin
 	public ParseTextDatatoLabeledPoint(MLibModel mlibModel) {
 		this.prediction = mlibModel.getPrediction();
 		this.label = mlibModel.getLabel();
+		this.validAttributes=checkValidAttributes();
 	}
 
 	@Override
 	public LabeledPoint call(String arg0) throws Exception {
 		// LOG.info("Calling main function of ParseTextDatatoLabeledPoint..");
-		if (arg0 == null) {
+		if (arg0 == null || !validAttributes) {
 			return new LabeledPoint(-1, Vectors.zeros(prediction.size()));
 		}
 
@@ -44,7 +46,7 @@ public class ParseTextDatatoLabeledPoint implements Function<String, LabeledPoin
 	       	 {
 	       		 num=Double.parseDouble(parts[prediction.get(i)]);
 	       	 }
-	       	 catch(NumberFormatException e)
+	       	 catch(NumberFormatException |ArrayIndexOutOfBoundsException e )
 	       	 {
 	       		 return new LabeledPoint(-1, Vectors.zeros(prediction.size()));
 	       	 }
@@ -63,6 +65,20 @@ public class ParseTextDatatoLabeledPoint implements Function<String, LabeledPoin
 		}
 		return new LabeledPoint(condVal, Vectors.dense(v));
 
+	}
+	
+	private boolean checkValidAttributes()
+	{
+		if ( prediction==null || prediction.size()==0 ||
+			 label==null || label.size()==0
+		   )		
+		{
+			return false;
+		}
+		else 
+		{
+			return true;
+		}
 	}
 
 }
