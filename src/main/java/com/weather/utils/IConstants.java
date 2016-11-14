@@ -43,4 +43,10 @@ public interface IConstants {
 	
 	static final String LOCALATION_URL="http://maps.googleapis.com/maps/api/geocode/json?sensor=false&address=";
 	static final String ELEVATION_URL="https://maps.googleapis.com/maps/api/elevation/json?locations=";
+	
+	// Model Names
+	static final String MODEL_HUMIDITY= "Humidity";
+	static final String MODEL_PRESSURE= "Pressure";
+	static final String MODEL_TEMPRATURE= "Temperature";
+	static final String MODEL_CONDITION= "Condition";		
 }
