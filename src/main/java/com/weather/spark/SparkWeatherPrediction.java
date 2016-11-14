@@ -24,12 +24,13 @@ import com.weather.googleAPI.pojos.WeatherResults;
 import com.weather.model.MLibModel;
 import com.weather.utils.IConstants;
 import com.weather.utils.ModelGenUtil;
+import com.weather.utils.PropertiesUtil;
 import com.weather.utils.WeatherUtils;
 
 import jodd.io.FileUtil;
 
 /**
- * This is the main process spark process that will be called to fetch input file
+ * This is the main porcess spark process that will be called to fetch input file
  * Generate models for each criteria (passing prediction and labels for each model,along with training data.
  * Once the models are available then apply these models on test data fetching from another file.
  * Process each field in format and save in specified directory. 
@@ -40,21 +41,22 @@ public class SparkWeatherPrediction {
 	private static final Log LOG = LogFactory.getLog(SparkWeatherPrediction.class);
 	public static void main(String[] args) {
 		
-		SparkConf conf = new SparkConf().setAppName("SparkWeatherPrediction").setMaster("local[*]");
+		PropertiesUtil propertiesUtil = new PropertiesUtil("conf/config.properties");		
+		SparkConf conf = new SparkConf().setAppName((String)propertiesUtil.getPropVal("app.name")).setMaster((String)propertiesUtil.getPropVal("app.master"));
 		JavaSparkContext sc = new JavaSparkContext(conf);
 		
 		// file paths to get training data and test data 
-		final String path = "data/training_data.csv";
-		final String testLocations = "data/test_loc.txt";	
-		final String outPath="data/final_result/";
+		final String path = (String)propertiesUtil.getPropVal("Input.training.filePath");
+		final String testLocations = (String)propertiesUtil.getPropVal("Input.TestLoc.filePath");
+		final String outPath=(String)propertiesUtil.getPropVal("Output.filePath");
 		checkAndDeleteOutPutFolder(outPath);
 		
 		JavaRDD<String> rawdata = sc.textFile(path);	
 		// sorted RDD 
 		JavaRDD<String> data = rawdata.mapToPair(new SplitDataToSort()).sortByKey(true).map(f -> f._2());
 		
-		// Get specific Model running again the training data loaded for each criteria
-		// Note we are considering all the fields for weather condition derivation.
+		// Get Sprcific Model running again the traiing data loaded for each criteria
+		// Note: We are consideringn all the fields for weather condition derivation.
 		Map<String,RandomForestModel> models=getModels(data);
 		
 		// Load test location data and get the coordinates calling google API for elivation , latitude , longitude. 
@@ -77,8 +79,8 @@ public class SparkWeatherPrediction {
 	{
 		
 		Map<String,RandomForestModel> models =new HashMap<String,RandomForestModel>();
-         	// Get specific Model running again the training data loaded for each criteria
-		// Note we are considering all the fields for weather condition derivation.		
+		// Get specific Model running again the training data loaded for each criteria
+		// Note we are considering all the fields for weather condition derivation.				    
 		RandomForestModel humidityModel = getRandomForestModelOnTrainData_Num(data,Arrays.asList(IConstants.ELEVATION, IConstants.LATITUDE, IConstants.LONGITUDE, IConstants.TIME), Arrays.asList(IConstants.HUMIDITY));
 		RandomForestModel pressureModel = getRandomForestModelOnTrainData_Num(data,Arrays.asList(IConstants.ELEVATION, IConstants.LATITUDE, IConstants.LONGITUDE, IConstants.TIME), Arrays.asList(IConstants.PRESSURE));
 		RandomForestModel tempModel = getRandomForestModelOnTrainData_Num(data,Arrays.asList(IConstants.ELEVATION, IConstants.LATITUDE, IConstants.LONGITUDE, IConstants.TIME), Arrays.asList(IConstants.TEMPRATURE));
@@ -94,8 +96,8 @@ public class SparkWeatherPrediction {
 	}
 	
 	/**
-	 * Method to check if output directory exists. If exists then delete it as we are using spark.
-	 * It will fail if there is a directory already available. 
+	 * Method to check if output directory existis. If existix the delete it as we are usng spark.
+	 * It will fail if there is a direcotry aleady available. 
 	 * @param path
 	 */
 	private static void checkAndDeleteOutPutFolder(String path)
