@@ -5,12 +5,10 @@ import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
 
 import org.json.JSONObject;
 
 import com.weather.googleAPI.pojos.Location;
-import com.weather.utils.IConstants;
 
 public class LocationFinder implements Serializable {
 
@@ -25,13 +23,13 @@ public class LocationFinder implements Serializable {
 	 * @param locationName
 	 * @return
 	 */
-	public Location getLocation(String locationName) {
+	public Location getLocation(String locationURL) {
 		Location loc = new Location();
 		URL url;
 		
 		try {
-			String urlString=IConstants.LOCALATION_URL+URLEncoder.encode(locationName, "UTF-8");
-			url = new URL(urlString);
+			//String urlString=IConstants.LOCALATION_URL+URLEncoder.encode(locationName, "UTF-8");
+			url = new URL(locationURL);
 
 			HttpURLConnection conn;
 			conn = (HttpURLConnection) url.openConnection();
@@ -41,6 +39,7 @@ public class LocationFinder implements Serializable {
 			while ((line = reader.readLine()) != null) {
 				outputString += line;
 			}
+			//System.out.println(outputString);
 			
 			JSONObject jsonObject = new JSONObject(outputString);
 			Double strLatitude = jsonObject.getJSONArray("results").getJSONObject(0).getJSONObject("geometry")
