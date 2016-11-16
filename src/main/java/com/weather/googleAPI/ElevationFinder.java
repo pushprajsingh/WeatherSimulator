@@ -5,10 +5,8 @@ import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
 
 import com.weather.googleAPI.pojos.ElevatorPojo;
-import com.weather.utils.IConstants;
 
 public class ElevationFinder implements Serializable {
 
@@ -18,22 +16,21 @@ public class ElevationFinder implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	public ElevatorPojo getElevationObject(String urlSTR) {
 
-	public ElevatorPojo getElevationObject(String elevationList) {
-
-		URL url;
+		//URL url;
 		ElevatorPojo ep = null;
 		try {
-			String urlString = IConstants.ELEVATION_URL + URLEncoder.encode(elevationList, "UTF-8");
-			url = new URL(urlString);
-			HttpURLConnection conn;
-			conn = (HttpURLConnection) url.openConnection();
+			String urlString = urlSTR;
+			URL url = new URL(urlString);			
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.setRequestMethod("GET");
 			String line, outputString = "";
 			BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 			while ((line = reader.readLine()) != null) {
 				outputString += line;
 			}
+			conn.disconnect();
 			ep = (ElevatorPojo) JsonGenerator.generateTOfromJson(outputString, ElevatorPojo.class);
 		} catch (Exception e) {
 			e.printStackTrace();
