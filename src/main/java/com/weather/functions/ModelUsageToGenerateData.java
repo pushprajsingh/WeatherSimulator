@@ -1,5 +1,6 @@
 package com.weather.functions;
 
+import java.net.URLEncoder;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
@@ -41,7 +42,7 @@ public class ModelUsageToGenerateData implements Function<String, WeatherResults
 	@Override
 	public WeatherResults call(String arg0) throws Exception {
 		String splits[]=arg0.split("#");
-		Location loc=lf.getLocation(splits[0]);	
+		Location loc=lf.getLocation(IConstants.LOCALATION_URL+URLEncoder.encode(splits[0], "UTF-8"));	
 		EpochTimeDetails epochTime=null;
 		if (splits[0] == null || splits[0].trim().length() == 0) {
 			epochTime = new EpochTimeDetails("Europe/London", 0);
@@ -52,7 +53,9 @@ public class ModelUsageToGenerateData implements Function<String, WeatherResults
 		long localTime = epochTime.getEopchTime();
 		String strEcopchDatetime=epochTime.getEopchDateTimeStr();						
 		String geoLoc=loc.getLat()+","+loc.getLng();
-		ElevatorPojo elepojo=aa.getElevationObject(geoLoc);							
+		//IConstants.ELEVATION_URL + URLEncoder.encode("Melbourne,Australia", "UTF-8")
+		//ElevatorPojo elepojo=aa.getElevationObject(geoLoc);
+		ElevatorPojo elepojo=aa.getElevationObject(IConstants.ELEVATION_URL + URLEncoder.encode(geoLoc, "UTF-8"));
 		
 		GeoResults[] results=elepojo.getResults();
 		GeoResults res=results[0];
